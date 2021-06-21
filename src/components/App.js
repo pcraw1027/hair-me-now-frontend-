@@ -4,6 +4,7 @@ import SignUp from './SignUp';
 import SideBar from './SideBar';
 import Splash from './Splash';
 import StylistHome from './StylistHome';
+import CustomerHome from './CustomerHome';
 import StylistAppointmentMgmt from './StylistAppointmentMgmt';
 import Prices from './Prices';
 import React, { useEffect, useState } from 'react';
@@ -39,7 +40,6 @@ function App() {
           <SideBar />
         </Grid.Column>
         <Grid.Column width={12}>
-        HOME PAGE
         <Switch>
           <Route exact path="/">
             <Splash />
@@ -50,11 +50,17 @@ function App() {
           <Route exact path="/signup">
             <SignUp />
           </Route>
-          <Route exact path="/stylisthome">
+          <Route exact path="/stylisthome/:id">
             <StylistHome />
+          </Route>
+          <Route exact path="/customerhome/:id">
+            <CustomerHome />
           </Route>
           <Route exact path="/prices">
             <Prices />
+          </Route>
+          <Route exact path="/stylistappointmentmgmt">
+            <StylistAppointmentMgmt />
           </Route>
         </Switch> 
         <button onClick={logOut}>Log Out</button>

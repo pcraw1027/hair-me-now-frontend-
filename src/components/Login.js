@@ -2,8 +2,9 @@ import CustomerHome from "./CustomerHome";
 import StylistHome from "./StylistHome";
 import React, { useState } from 'react';
 // import SignUp from "./SignUp";
-import { NavLink, Link } from "react-router-dom"
+import { NavLink, Link, useHistory } from "react-router-dom"
 import { useDispatch } from 'react-redux'
+
 
 function Login() {
     const [userName, setUserName] = useState("");
@@ -12,8 +13,10 @@ function Login() {
     const [userType, setUserType] = useState("customer");
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [isStylist, setIsStylist] = useState(false)
+    
+    const history = useHistory()
 
-    const despatch = useDispatch()
+    const dispatch = useDispatch()
     
 
     function handleSubmit(event) {
@@ -34,10 +37,19 @@ function Login() {
         .then(userInfo => {
             localStorage.token = userInfo.token
             // setUserId(userInfo.user_id)
-            despatch({type: "loggedIn", payload: userInfo.user_id})
-            console.log(userInfo.user_id)
-            setIsLoggedIn(!isLoggedIn)
+            dispatch({type: "loggedIn", payload: userInfo.user_id})
+            console.log(userInfo)
+            console.log(userInfo.user_prices)
+            dispatch({type: "priceDataIn", payload: userInfo.user_prices})
+            dispatch({type: "appointmentDataIn", payload: userInfo.user_apppointments})
+            dispatch({type: "stylistDataIn", payload: userInfo.stylist})
+            // setIsLoggedIn(!isLoggedIn)
             // console.log(isLoggedIn)
+            if (userType === "stylist") {
+                history.push(`/stylisthome/${userInfo.user_id}`)
+            } else {
+                history.push(`/customerhome/${userInfo.user_id}`)
+            }
             
         })
         if (userType === "stylist") {
@@ -81,8 +93,8 @@ function Login() {
               </label>
               <button type="submit">Log In</button>
               
-          {isLoggedIn ? (isStylist ? <StylistHome/> :
-          <CustomerHome/> ) : null }
+          {/* {isLoggedIn ? (isStylist ? <StylistHome/> :
+          <CustomerHome/> ) : null } */}
           </form>
           <div className="signUp-link">
               <nav>

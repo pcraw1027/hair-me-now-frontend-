@@ -13,27 +13,27 @@ function StylistAppointmentManagement() {
 
   // access the userId value in the redux store
   const userId = useSelector((state) => state.userId)
-  const despatch = useDispatch()
+  const dispatch = useDispatch()
 
-  useEffect(() => {
+  // useEffect(() => {
     console.log(localStorage.token)
     console.log(userId)
-    fetch(`http://localhost:3000/stylist/logged_in/${userId}?_embed=appointments`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.token}`
-            }
-    })
-    .then(resp => resp.json())
-    .then(stylist => { 
-        setAppointmentsArray(stylist[0].appointments)
-        setStylistLoggedIn(stylist)
-        despatch({type: "stylistId", payload: stylist[0].id})
-        setIsLoaded(true)
-        console.log(stylist)
-        console.log(appointmentsArray)
-    })
-  }, [])
+  //   fetch(`http://localhost:3000/stylist/logged_in/${userId}?_embed=appointments`, {
+  //           method: "GET",
+  //           headers: {
+  //               Authorization: `Bearer ${localStorage.token}`
+  //           }
+  //   })
+  //   .then(resp => resp.json())
+  //   .then(stylist => { 
+  //       setAppointmentsArray(stylist[0].appointments)
+  //       setStylistLoggedIn(stylist)
+  //       dispatch({type: "stylistId", payload: stylist[0].id})
+  //       setIsLoaded(true)
+  //       console.log(stylist)
+  //       console.log(appointmentsArray)
+  //   })
+  // }, [])
 
   // useEffect(() =>  {
   //   fetch(`http://localhost:3000/appointments/stylist/${stylistLoggedIn.id}`, {
@@ -52,9 +52,10 @@ function StylistAppointmentManagement() {
   
   let confirmedAppointmentsArray
   let requestedAppointmentsArray
-  let showrequestedAppointmentsArray
+  let showRequestedAppointmentsArray
+  let showConfirmedAppointmentsArray
   
-  if (isLoaded) {
+  // if (isLoaded) {
     console.log(appointmentsArray)
     // find the current appointments and not completed
       const currentAppointmentsArray = appointmentsArray.filter(function(appointmentObj) {
@@ -77,39 +78,41 @@ function StylistAppointmentManagement() {
       console.log(requestedAppointmentsArray)
       console.log(confirmedAppointmentsArray)
 
-      // showrequestedAppointmentsArray = requestedAppointmentsArray.map(function(request) {
-      //     return <AppointmentRequests 
-      //       key={request.id}
-      //       name={request.appointment_customer}
-      //       date={request.date}
-      //       time={request.time}
-      //       style={request.appointment_style}
-      //     />
-      // })
+      showRequestedAppointmentsArray = requestedAppointmentsArray.map(function(request) {
+          return <AppointmentRequests 
+            key={request.id}
+            name={request.appointment_customer}
+            date={request.date}
+            time={request.time}
+            style={request.appointment_style}
+          />
+      })
+
+      showConfirmedAppointmentsArray = confirmedAppointmentsArray.map(function(confirmed) {
+        return <AppointmentCalendar
+          key={confirmed.id}
+            name={confirmed.appointment_customer}
+            date={confirmed.date}
+            time={confirmed.time}
+            style={confirmed.appointment_style}
+            />
+      })
 
 
     
-  } else {
-    null
-  }
+  // } else {
+    // null
+  // }
 
-  if (isLoaded) {
-
-    // showrequestedAppointmentsArray = requestedAppointmentsArray.map(function(request) {
-    //   return <AppointmentRequests 
-    //     key={request.id}
-    //     name={request.appointment_customer}
-    //     date={request.date}
-    //     time={request.time}
-    //     style={request.appointment_style}
-    //   />
-    // })
+  // if (isLoaded) {
     
-    return 
+    return (
       <div>
-        
-        <AppointmentCalendar confirmedAppointmentsArray={confirmedAppointmentsArray}/>
+        {showRequestedAppointmentsArray}
+        {showConfirmedAppointmentsArray}
+        {/* <AppointmentCalendar confirmedAppointmentsArray={confirmedAppointmentsArray}/> */}
       </div>
-  }
+    )
+  // }
 }
 export default StylistAppointmentManagement

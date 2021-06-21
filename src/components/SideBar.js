@@ -28,9 +28,11 @@ function SideBar() {
             <Search stylistsArray={stylistsArray} />
             <div>
                 <nav>
-                    <NavLink className="sidebar-btn" to="/stylistappointmentmgmt">Appointment Managment</NavLink>
+                    {localStorage.token ?
+                    <NavLink className="sidebar-btn" to="/stylistappointmentmgmt">Appointment Managment</NavLink> : null}
                     <br/>
-                    <NavLink className="sidebar-btn" to="/prices">Price Management</NavLink>
+                    {localStorage.token ?
+                    <NavLink className="sidebar-btn" to="/prices">Price Management</NavLink> : null}
                 </nav>
             </div>
         
