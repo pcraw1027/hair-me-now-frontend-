@@ -40,8 +40,11 @@ function Login() {
             dispatch({type: "loggedIn", payload: userInfo.user_id})
             console.log(userInfo)
             console.log(userInfo.user_prices)
+            console.log(userInfo.user_appointments)
+            console.log(userInfo.stylist)
+
             dispatch({type: "priceDataIn", payload: userInfo.user_prices})
-            dispatch({type: "appointmentDataIn", payload: userInfo.user_apppointments})
+            dispatch({type: "appointmentDataIn", payload: userInfo.user_appointments})
             dispatch({type: "stylistDataIn", payload: userInfo.stylist})
             // setIsLoggedIn(!isLoggedIn)
             // console.log(isLoggedIn)

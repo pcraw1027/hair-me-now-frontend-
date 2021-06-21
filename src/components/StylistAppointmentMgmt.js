@@ -7,12 +7,12 @@ import { useSelector, useDispatch } from 'react-redux';
 
 function StylistAppointmentManagement() {
   const [appointments, setAppointments] = useState({})
-  const [appointmentsArray, setAppointmentsArray] = useState([]);
+  // const [appointmentsArray, setAppointmentsArray] = useState([]);
   const [stylistLoggedIn, setStylistLoggedIn] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
 
   // access the userId value in the redux store
-  const userId = useSelector((state) => state.userId)
+  const userId = useSelector((state) => state.dateReducer.userId)
   const dispatch = useDispatch()
 
   // useEffect(() => {
@@ -50,6 +50,100 @@ function StylistAppointmentManagement() {
   //   })
   // }, [stylistLoggedIn])  
   
+  
+  const appointmentsArray = [
+  {
+    "id": 2,
+    "date": "2021-06-17",
+    "time": "2021-06-17T09:00:00.000Z",
+    "image": null,
+    "confirmed": true,
+    "completed": false,
+    "customer_id": 1,
+    "stylist_id": 1,
+    "price_id": 2
+    
+  },
+  {
+    "id": 4,
+    "date": "2021-06-18",
+    "time": "2021-06-18T12:00:00.000Z",
+    "image": null,
+    "confirmed": true,
+    "completed": false,
+    "customer_id": 1,
+    "stylist_id": 1,
+    "price_id": 4
+
+  },
+  {
+    "id": 6,
+    "date": "2021-06-19",
+    "time": "2021-06-19T013:00:00.000Z",
+    "image": null,
+    "confirmed": false,
+    "completed": false,
+    "customer_id": 1,
+    "stylist_id": 1,
+    "price_id": 6
+
+  },
+  {
+    "id": 8,
+    "date": "2021-06-21",
+    "time": "2021-06-21T15:00:00.000Z",
+    "image": null,
+    "confirmed": false,
+    "completed": false,
+    "customer_id": 1,
+    "stylist_id": 1,
+    "price_id": 8
+    
+  }
+]
+
+function handleAccept(acceptId) {
+  fetch(`http://localhost:3000/appointments/${acceptId}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      confirmed: true
+    })
+  })
+  .then(r => r.json())
+  .then(json => {
+    const changeAppointmentsArray = appointmentsArray.map(appointment => {
+      return appointment.id === acceptId ? json : appointment
+    })
+    dispatch({type: "appointmentDelete", payload: changeAppointmentsArray}) 
+  })
+}
+  
+
+function handleReject(rejectId) {
+  fetch(`http://localhost:3000/appointments/${rejectId}`, {
+    method: "DELETE",
+    headers: {
+        Authorization: `Bearer ${localStorage.token}`
+    },
+  })
+  .then((r) => r.json())
+  .then((json) => {
+    console.log(`Deletion of ${rejectId} successful!!!`)
+
+    const newAppointmentsArray = appointmentsArray.filter(appointment => {
+      return appointment.id !== rejectId
+    })
+    dispatch({type: "appointmentDelete", payload: newAppointmentsArray})
+  })
+}
+  
+  
+  
+  
   let confirmedAppointmentsArray
   let requestedAppointmentsArray
   let showRequestedAppointmentsArray
@@ -81,22 +175,25 @@ function StylistAppointmentManagement() {
       showRequestedAppointmentsArray = requestedAppointmentsArray.map(function(request) {
           return <AppointmentRequests 
             key={request.id}
+            id={request.id}
             name={request.appointment_customer}
             date={request.date}
             time={request.time}
             style={request.appointment_style}
+            onAccept={handleAccept}
+            onReject={handleReject}
           />
       })
 
-      showConfirmedAppointmentsArray = confirmedAppointmentsArray.map(function(confirmed) {
-        return <AppointmentCalendar
-          key={confirmed.id}
-            name={confirmed.appointment_customer}
-            date={confirmed.date}
-            time={confirmed.time}
-            style={confirmed.appointment_style}
-            />
-      })
+      // showConfirmedAppointmentsArray = confirmedAppointmentsArray.map(function(confirmed) {
+      //   return <AppointmentCalendar
+      //     key={confirmed.id}
+      //       name={confirmed.appointment_customer}
+      //       date={confirmed.date}
+      //       time={confirmed.time}
+      //       style={confirmed.appointment_style}
+      //       />
+      // })
 
 
     
@@ -109,8 +206,8 @@ function StylistAppointmentManagement() {
     return (
       <div>
         {showRequestedAppointmentsArray}
-        {showConfirmedAppointmentsArray}
-        {/* <AppointmentCalendar confirmedAppointmentsArray={confirmedAppointmentsArray}/> */}
+        {/* {showConfirmedAppointmentsArray} */}
+        <AppointmentCalendar confirmedAppointmentsArray={confirmedAppointmentsArray}/>
       </div>
     )
   // }

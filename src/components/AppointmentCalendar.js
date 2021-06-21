@@ -6,11 +6,21 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import React, { useState } from 'react'
 
-function AppointmentCalendar() {
+function AppointmentCalendar({confirmedAppointmentsArray}) {
     
-    const [value, onChange] = useState(new Date())
-
+    // const [value, onChange] = useState(new Date())
+    console.log(confirmedAppointmentsArray)
+    
     let events = []
+
+    events = confirmedAppointmentsArray.map((appointments) => {
+        const startTime = appointments.time.split("Z")[0]
+        return {
+            id: appointments.id,
+            title: appointments.customer_id,
+            start: startTime
+        }
+    })
     
     return <div>
         <FullCalendar 

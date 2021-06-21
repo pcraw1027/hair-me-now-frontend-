@@ -1,50 +1,30 @@
+import { combineReducers } from 'redux';
+import stylistReducer from './stylistReducer';
+import customerReducer from './customerReducer';
+import appointmentReducer from './appointmentReducer';
+import priceReducer from './priceReducer';
+import serviceReducer from './serviceReducer';
 
-let initialState = {userId: 0, stylistId: 0, customerId: 0, priceData: [], appointmentData: [], customerData: [], serviceData: [], stylistData: []}
 
 
-let rootReducer = (state = initialState, action) => {
+let initialState = {userId: 0 
+                    }
+
+// console.log(initialState.stylistData)
+
+let dataReducer = (state = initialState, action) => {
     switch(action.type) {
         case "loggedIn":
             return {
                 ...state, userId: action.payload
             }
-        case "stylist":
-            return {
-                ...state, stylistId: action.payload
-            }
-        case "customer":
-            return {
-                ...state, customerId: action.payload
-            }
-        case "customerDataIn":
-            return {
-                ...state, customerData: action.payload
-            }
-        case "stylistDataIn":
-            return {
-                ...state, stylistData: action.payload
-            }
-        case "appointmentDataIn":
-            return {
-                ...state, appointmentData: action.payload
-            }
-        case "priceDataIn":
-            return {
-                ...state, priceData: action.payload
-            }
-        case "priceAdd":
-            return {
-                ...state, priceData: [...state.priceData, action.payload]
-            }
-        case "serviceDataIn":
-            return {
-                ...state, serviceData: action.payload
-            }
         default:
             return state
     }
         
-    
 }
+
+const rootReducer = combineReducers({dataReducer, stylistReducer, customerReducer, appointmentReducer, priceReducer, serviceReducer})
+    
 
 export default rootReducer

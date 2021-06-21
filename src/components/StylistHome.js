@@ -14,10 +14,10 @@ function StylistHome() {
   const params = useParams()
 
     // access the userId value in the redux store
-    const userId = useSelector((state) => state.userId)
-    // const stylistObj = useSelector((state) => state.stylistDataIn)
+    const userId = useSelector((state) => state.dataReducer.userId)
+    const stylistObj1 = useSelector((state) => state.stylistReducer.stylistData)
     const stylistObj = {"id": 1, "first_name": "Hess", "last_name": "Hess", "address_1": "95 Fisher Ave", "address_2": null, "city": "White Plains", "zip_code": "99999", "gender_service": "male", "ethnicity_service": "all", "image": null, "phone_num": "(555) 999-9999", "email": null}
-    console.log(stylistObj)
+    console.log(stylistObj1)
 
 
 
