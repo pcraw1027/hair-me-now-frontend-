@@ -5,9 +5,38 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #ebebdf;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+div.appointment-requests {
+  margin: 10px;
+  padding: 10px;
+  border: #592b75;
+  background-color: #d2c4db;
+  border-style: solid;
+  border-radius: 1px;
+}
+
+#main-page {
+background-color: #ebebdf
+}
+
+div.main-page {
+  padding-top: 20px;
+  text-align: center;
+  margin-right: 50px;
+}
+
+ul.appointment-list {
+  text-align: center;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  margin-bottom: 50px;
 }

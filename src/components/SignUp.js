@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useHistory } from 'react';
 
 function SignUp() {
     const [userName, setUserName] = useState("");
     const [passWord, setPassWord] = useState("");
     const [userType, setUserType] = useState("customer");
     
+    const history = useHistory()
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -25,6 +26,7 @@ function SignUp() {
             localStorage.token = userInfo.token
             setUserName("")
             setPassWord("")
+            history.push('/login')
         })
     }
   

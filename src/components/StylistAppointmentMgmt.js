@@ -12,7 +12,7 @@ function StylistAppointmentManagement() {
   const [isLoaded, setIsLoaded] = useState(false)
 
   // access the userId value in the redux store
-  const userId = useSelector((state) => state.dateReducer.userId)
+  const userId = useSelector((state) => state.dataReducer.userId)
   const dispatch = useDispatch()
 
   // useEffect(() => {
@@ -51,57 +51,9 @@ function StylistAppointmentManagement() {
   // }, [stylistLoggedIn])  
   
   
-  const appointmentsArray = [
-  {
-    "id": 2,
-    "date": "2021-06-17",
-    "time": "2021-06-17T09:00:00.000Z",
-    "image": null,
-    "confirmed": true,
-    "completed": false,
-    "customer_id": 1,
-    "stylist_id": 1,
-    "price_id": 2
-    
-  },
-  {
-    "id": 4,
-    "date": "2021-06-18",
-    "time": "2021-06-18T12:00:00.000Z",
-    "image": null,
-    "confirmed": true,
-    "completed": false,
-    "customer_id": 1,
-    "stylist_id": 1,
-    "price_id": 4
-
-  },
-  {
-    "id": 6,
-    "date": "2021-06-19",
-    "time": "2021-06-19T013:00:00.000Z",
-    "image": null,
-    "confirmed": false,
-    "completed": false,
-    "customer_id": 1,
-    "stylist_id": 1,
-    "price_id": 6
-
-  },
-  {
-    "id": 8,
-    "date": "2021-06-21",
-    "time": "2021-06-21T15:00:00.000Z",
-    "image": null,
-    "confirmed": false,
-    "completed": false,
-    "customer_id": 1,
-    "stylist_id": 1,
-    "price_id": 8
-    
-  }
-]
-
+  const appointmentsArray = useSelector((state) => state.appointmentReducer.appointmentData)
+console.log(appointmentsArray)
+//   
 function handleAccept(acceptId) {
   fetch(`http://localhost:3000/appointments/${acceptId}`, {
     method: "PATCH",
@@ -118,7 +70,7 @@ function handleAccept(acceptId) {
     const changeAppointmentsArray = appointmentsArray.map(appointment => {
       return appointment.id === acceptId ? json : appointment
     })
-    dispatch({type: "appointmentDelete", payload: changeAppointmentsArray}) 
+    dispatch({type: "appointmentConfirm", payload: changeAppointmentsArray}) 
   })
 }
   
@@ -130,8 +82,8 @@ function handleReject(rejectId) {
         Authorization: `Bearer ${localStorage.token}`
     },
   })
-  .then((r) => r.json())
-  .then((json) => {
+  .then(r => r.json())
+  .then(json => {
     console.log(`Deletion of ${rejectId} successful!!!`)
 
     const newAppointmentsArray = appointmentsArray.filter(appointment => {
@@ -180,6 +132,7 @@ function handleReject(rejectId) {
             date={request.date}
             time={request.time}
             style={request.appointment_style}
+            image={request.price.image}
             onAccept={handleAccept}
             onReject={handleReject}
           />
@@ -205,7 +158,9 @@ function handleReject(rejectId) {
     
     return (
       <div>
-        {showRequestedAppointmentsArray}
+        <ul className="appointment-list">
+          {showRequestedAppointmentsArray}
+        </ul>
         {/* {showConfirmedAppointmentsArray} */}
         <AppointmentCalendar confirmedAppointmentsArray={confirmedAppointmentsArray}/>
       </div>

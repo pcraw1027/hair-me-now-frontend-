@@ -12,56 +12,9 @@ function Prices() {
 
   const stylistId = useSelector((state) => state.stylistId)
   // const priceArray = useSelector((state) => state.priceDataIn)
-  const priceArray = [
-    {
-      "id": 1,
-      "amount": 23.99,
-      "image": "Hair_Me_Now_Backend/app/images/juliuscaesar-flat-top_large.jpg",
-      "url": null,
-      "current": true,
-      "comment": null,
-      "stylist_id": 1,
-      "service_id": 1,
-      "created_at": "2021-06-20T13:31:13.750Z",
-      "updated_at": "2021-06-20T13:31:13.750Z"
-    },
-    {
-      "id": 2,
-      "amount": 27.99,
-      "image": "Hair_Me_Now_Backend/app/images/juliuscaesar-flat-top_large.jpg",
-      "url": null,
-      "current": true,
-      "comment": null,
-      "stylist_id": 1,
-      "service_id": 2,
-      "created_at": "2021-06-20T13:31:13.755Z",
-      "updated_at": "2021-06-20T13:31:13.755Z"
-    },
-    {
-      "id": 3,
-      "amount": 30.99,
-      "image": "Hair_Me_Now_Backend/app/images/juliuscaesar-flat-top_large.jpg",
-      "url": null,
-      "current": true,
-      "comment": null,
-      "stylist_id": 1,
-      "service_id": 3,
-      "created_at": "2021-06-20T13:31:13.759Z",
-      "updated_at": "2021-06-20T13:31:13.759Z"
-    },
-    {
-      "id": 4,
-      "amount": 33.99,
-      "image": "Hair_Me_Now_Backend/app/images/juliuscaesar-flat-top_large.jpg",
-      "url": null,
-      "current": true,
-      "comment": null,
-      "stylist_id": 1,
-      "service_id": 4,
-      "created_at": "2021-06-20T13:31:13.764Z",
-      "updated_at": "2021-06-20T13:31:13.764Z"
-    }
-  ]
+  const priceArray = useSelector((state => state.priceReducer.priceData))
+  
+
 
   function handleClick() {
     setAddPrice((addPrice) => !addPrice)
@@ -69,6 +22,32 @@ function Prices() {
 
   function handleNewPrice(newPrice) {
     dispatch({type: "priceAdd", payload: newPrice})
+  }
+
+  function handleDeletePrice(priceId) {
+
+    fetch(`http://localhost:3000/prices/${priceId}`, {
+      method: "PATCH",
+      headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+          "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              current: false
+              
+          })
+      })
+          .then((r) => r.json())
+          .then(json => {
+
+              const changePriceArray = priceArray.map(price => {
+                  return price.id === priceId ? json : price
+                })
+                dispatch({type: "priceDeactive", payload: changePriceArray}) 
+      
+      })
+
+
   }
   
   
@@ -84,7 +63,7 @@ function Prices() {
             image = {priceObj.image}
             amount = {priceObj.amount}
             comment = {priceObj.comment}
-           
+            handleDeletePrice = {handleDeletePrice}
         />
   })
 

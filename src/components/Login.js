@@ -3,16 +3,15 @@ import StylistHome from "./StylistHome";
 import React, { useState } from 'react';
 // import SignUp from "./SignUp";
 import { NavLink, Link, useHistory } from "react-router-dom"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 function Login() {
     const [userName, setUserName] = useState("");
     const [passWord, setPassWord] = useState("");
-    const [userId, setUserId] = useState()
+    const [userId, setUserId] = useState();
     const [userType, setUserType] = useState("customer");
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [isStylist, setIsStylist] = useState(false)
+    const [isStylist, setIsStylist] = useState("true")
     
     const history = useHistory()
 
@@ -35,19 +34,53 @@ function Login() {
         })
         .then(res => res.json())
         .then(userInfo => {
+            // Setup login token capture for the session
             localStorage.token = userInfo.token
-            // setUserId(userInfo.user_id)
+            // Capture user id for the session in Redux
             dispatch({type: "loggedIn", payload: userInfo.user_id})
+            
             console.log(userInfo)
             console.log(userInfo.user_prices)
             console.log(userInfo.user_appointments)
-            console.log(userInfo.stylist)
+            // console.log(userInfo.user_stylist)
 
-            dispatch({type: "priceDataIn", payload: userInfo.user_prices})
-            dispatch({type: "appointmentDataIn", payload: userInfo.user_appointments})
-            dispatch({type: "stylistDataIn", payload: userInfo.stylist})
-            // setIsLoggedIn(!isLoggedIn)
-            // console.log(isLoggedIn)
+            if (userType === "stylist") {
+                dispatch({type: "stylistDataIn", payload: userInfo.user_stylist})
+
+
+                // Load stylist user prices
+                dispatch({type: "priceDataIn", payload: userInfo.user_prices})
+                
+                // Load stylist user appointments
+                // dispatch({type: "appointmentDataIn", payload: userInfo.user_appointments})
+
+                // Currently this data is not in the Login fetch 
+                // but is avalible in the Users fetch so we'll move it back
+                // to the StylistHome component.  So commented out
+                // dispatch({type: "stylistDataIn", payload: userInfo.stylist})
+
+                // Actually will make it a capture of the stylistId instead
+                dispatch({type: "stylist", payload: userInfo.user_stylist.id})
+
+                // fetch(`http://localhost:3000/stylists/${userInfo.user_stylist.id}`, {
+                // method: "GET",
+                // headers: {
+                //     Authorization: `Bearer ${localStorage.token}`
+                // }
+                // })
+                // .then(resp => resp.json())
+                // .then(stylists => {
+                //     console.log(stylists) 
+    
+                //     dispatch({type: "stylistDataIn", payload: stylists})
+
+                // })
+            } else {
+                console.log(userInfo)
+            }
+
+            dispatch({type: "userType", payload: userInfo.user_type})
+
             if (userType === "stylist") {
                 history.push(`/stylisthome/${userInfo.user_id}`)
             } else {
@@ -58,6 +91,7 @@ function Login() {
         if (userType === "stylist") {
             setIsStylist(true)                
         }
+        
         
     }
     return (

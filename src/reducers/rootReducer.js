@@ -7,7 +7,8 @@ import serviceReducer from './serviceReducer';
 
 
 
-let initialState = {userId: 0 
+let initialState = {userId: 0, 
+                    userType: " " 
                     }
 
 // console.log(initialState.stylistData)
@@ -17,6 +18,10 @@ let dataReducer = (state = initialState, action) => {
         case "loggedIn":
             return {
                 ...state, userId: action.payload
+            }
+        case "userType":
+            return {
+                ...state, userType: action.payload
             }
         default:
             return state

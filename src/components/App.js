@@ -7,6 +7,8 @@ import StylistHome from './StylistHome';
 import CustomerHome from './CustomerHome';
 import StylistAppointmentMgmt from './StylistAppointmentMgmt';
 import Prices from './Prices';
+import StylistProfile from './StylistProfile'
+import ProductPurchaseMgmt from './ProductPurchaseMgmt'
 import React, { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Grid } from "semantic-ui-react";
@@ -29,9 +31,7 @@ function App() {
   //   })
   // }, [])
 
-  function logOut() {
-    localStorage.clear()
-  }
+  
 
   return (
     <div className="App">
@@ -62,8 +62,14 @@ function App() {
           <Route exact path="/stylistappointmentmgmt">
             <StylistAppointmentMgmt />
           </Route>
+          <Route exact path="/stylistprofile">
+            <StylistProfile />
+          </Route>
+          <Route exact path="/productpurchasemgmt">
+            <ProductPurchaseMgmt />
+          </Route>
         </Switch> 
-        <button onClick={logOut}>Log Out</button>
+       
         </Grid.Column>
       </Grid>
       

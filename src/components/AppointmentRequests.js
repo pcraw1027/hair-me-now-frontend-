@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 
-function AppointmentRequests({id, name, date, time, style, onAccept, onReject}) {
+function AppointmentRequests({id, name, date, time, style, onAccept, onReject, image}) {
     
     function handleAccept(request_id) {
         onAccept(request_id)
@@ -21,7 +21,7 @@ function AppointmentRequests({id, name, date, time, style, onAccept, onReject}) 
             <p>Requested Style {style} </p>
             <p>Start Time {time} </p>
             <p>End Time {time} </p>
-            <button className="accept-btn" onClick={() => handleAccept(id)}>Accepct</button>
+            <button className="accept-btn" onClick={() => handleAccept(id)}>Accept</button>
             <button className="reject-btn" onClick={() => handleReject(id)}>Reject</button>
         
         </div>

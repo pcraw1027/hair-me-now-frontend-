@@ -8,7 +8,7 @@ function PriceAdd( {onAddPrice} ) {
     const [image, setImage] = useState("")
     const [comment, setComment] = useState("")
 
-    const userId = useSelector((state) => state.userId) 
+    const stylistId = useSelector((state) => state.stylistReducer.stylistId) 
     // const serviceArray = useSelector((state) => state.serviceDataIn)
   // const priceArray = useSelector((state) => state.priceDataIn)
   const serviceArray = [
@@ -72,27 +72,27 @@ function PriceAdd( {onAddPrice} ) {
     function handleSubmit(e) {
         e.preventDefault()
         const newPrice = {
-            stylist_id: userId,
+            stylist_id: stylistId,
             service_id: parseInt(name),
             amount: parseFloat(amount),
             image: image,
             comment: comment,
             current: true
         }
-
+console.log(newPrice)
         fetch("http://localhost:3000/prices", {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${localStorage.token}`, 
                 "Content-Type": "application/json"
             },
-            body: JSON.stringyfy(newPrice),
+            body: JSON.stringify(newPrice),
         })
-            .then((r) => r.json())
+            .then(r => r.json())
             .then((newPrice) => {
+                console.log(newPrice)
                 onAddPrice(newPrice)
             });
-    
 
     }
 

@@ -17,16 +17,21 @@ function AppointmentCalendar({confirmedAppointmentsArray}) {
         const startTime = appointments.time.split("Z")[0]
         return {
             id: appointments.id,
-            title: appointments.customer_id,
+            title: appointments.appointment_customer,
             start: startTime
         }
     })
+
+    function handleDateClick() {
+        return "hello"
+    }
     
     return <div>
         <FullCalendar 
             initialView='dayGridMonth'
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             events={events}
+            dateClick={handleDateClick}
                     />
         {/* <AppointmentCard/> */}
     </div>
