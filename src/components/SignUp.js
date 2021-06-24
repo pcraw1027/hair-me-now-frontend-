@@ -1,11 +1,12 @@
-import React, { useState, useHistory } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 
 function SignUp() {
     const [userName, setUserName] = useState("");
     const [passWord, setPassWord] = useState("");
     const [userType, setUserType] = useState("customer");
     
-    const history = useHistory()
+    const history = useHistory();
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -24,8 +25,41 @@ function SignUp() {
         .then(res => res.json())
         .then(userInfo => {
             localStorage.token = userInfo.token
+            console.log(userInfo)
             setUserName("")
             setPassWord("")
+            // if (userType === "stylist") {
+            //     fetch("http://localhost:3000/stylists", {
+            //         method: "POST",
+            //         headers: {
+            //             Authorization: `Bearer ${localStorage.token}`,
+            //             "Content-Type": "application/json"
+            //         },
+            //         body: JSON.stringify({
+            //             user_id: userInfo.id,
+                        // first_name: "firstName",
+                        // last_name: "lastName",
+                        // address_1: "address1",
+                        // address_2: "address2",
+                        // city: "city",
+                        // state: "state",
+                        // zip_code: "zipCode",
+                        // url: "url",
+                        // image: "image",
+                        // email: "email",
+                        // phone_num: "phoneNum",
+                        // gender_service: "genderService",
+                        // ethnicity_service: "ethnicityService"
+            //         }),
+            //     })
+            //     .then(r => r.json())
+            //     .then((dummyStylist) => {
+            //         console.log(dummyStylist)
+            //     })
+            // } else {
+            //     console.log("customer")
+            // }
+
             history.push('/login')
         })
     }
