@@ -15,10 +15,12 @@ code {
 
 
 div.appointment-requests {
+  height: 40px;
+  width:30px;
   margin: 10px;
   padding: 10px;
-  border: #592b75;
-  background-color: #d2c4db;
+  border: black;
+  background-color: white;
   border-style: solid;
   border-radius: 1px;
 }
@@ -34,9 +36,16 @@ div.main-page {
 }
 
 ul.appointment-list {
+  height:440px;
+  width:215px;
   text-align: center;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
   margin-bottom: 50px;
+}
+
+div.appointment-box {
+  height: 440px;
+  width: 600px
 }

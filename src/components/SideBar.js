@@ -1,10 +1,21 @@
 import React, {useState, useEffect} from "react"
 import { NavLink, Link, useHistory } from "react-router-dom"
 import Search from './Search';
+import { useSelector } from 'react-redux'
 
 function SideBar() {
 
     const [stylistsArray, setStylistsArray] = useState([]);
+    const [isStylist, setIsStylist] = useState(true)
+    const userType = useSelector((state) => state.userType) 
+    
+    console.log(isStylist)
+
+    if (userType == "sytlist") {
+        setIsStylist(true)
+        console.log(isStylist)
+    }
+    
     const history = useHistory()
     
     useEffect(() => {
@@ -19,7 +30,8 @@ function SideBar() {
         //     console.log(stylists) 
         //     setStylistsArray(stylists)
         // })
-    }, [])
+        console.log(isStylist)
+    }, [useSelector((state) => state.userType)])
     function logOut() {
         localStorage.clear()
         history.push(`/`)
@@ -33,16 +45,18 @@ function SideBar() {
             <Search stylistsArray={stylistsArray} />
             <div className="mgmt-links">
                 <nav>
-                    {localStorage.token ?
-                    <NavLink className="sidebar-btn" to="/stylistappointmentmgmt">Appointment Managment</NavLink> : null}
+                    {isStylist ?
+                    <NavLink className="sidebar-btn" to="/stylistappointmentmgmt">Appointment Managment</NavLink> : 
+                    <NavLink className="sidebar-btn" to="/customermakeappointment">Appointment Managment</NavLink>}
                     <br/>
-                    {localStorage.token ?
-                    <NavLink className="sidebar-btn" to="/prices">Price Management</NavLink> : null}
+                    {isStylist ?
+                    <NavLink className="sidebar-btn" to="/prices">Price Management</NavLink> : 
+                    <NavLink className="sidebar-btn" to="/customerprofile">User Profile Management</NavLink>}
                     <br/>
-                    {localStorage.token ?
+                    {isStylist ?
                     <NavLink className="sidebar-btn" to="/stylistprofile">User Profile Management</NavLink> : null}
                     <br/>
-                    {localStorage.token ?
+                    {isStylist ?
                     <NavLink className="sidebar-btn" to="/productpurchasemgmt">Purchase Management</NavLink> : null}
                 </nav>
             </div>

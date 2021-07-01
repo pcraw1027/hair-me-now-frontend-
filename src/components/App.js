@@ -1,4 +1,5 @@
 import '../App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Login';
 import SignUp from './SignUp';
 import SideBar from './SideBar';
@@ -9,6 +10,8 @@ import StylistAppointmentMgmt from './StylistAppointmentMgmt';
 import Prices from './Prices';
 import StylistProfile from './StylistProfile'
 import ProductPurchaseMgmt from './ProductPurchaseMgmt'
+import MakeAppointment from './MakeAppointment'
+import CustomerProfile from './CustomerProfile'
 import React, { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Grid } from "semantic-ui-react";
@@ -67,6 +70,12 @@ function App() {
           </Route>
           <Route exact path="/productpurchasemgmt">
             <ProductPurchaseMgmt />
+          </Route>
+          <Route exact path="/customermakeappointment">
+            <MakeAppointment />
+          </Route>
+          <Route exact path="/customerprofile">
+            <CustomerProfile />
           </Route>
         </Switch> 
        

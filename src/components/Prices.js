@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PriceList from "./PriceList";
 import PriceAdd from "./PriceAdd";
 import { useSelector, useDispatch } from 'react-redux';
-
+import {CardGroup} from 'react-bootstrap'
 
 function Prices() {
   const [addPrice, setAddPrice] = useState(false)
@@ -63,6 +63,7 @@ function Prices() {
             image = {priceObj.image}
             amount = {priceObj.amount}
             comment = {priceObj.comment}
+            name = {priceObj.price_style}
             handleDeletePrice = {handleDeletePrice}
         />
   })
@@ -83,7 +84,7 @@ function Prices() {
     return (
       <div className="price-list" id="prices">
         <h1>Price List</h1>
-        {currentPriceCard}
+        <CardGroup>{currentPriceCard}</CardGroup>
         <div className="button-container">
           <button onClick={handleClick}>Add a Price </button>
         </div>

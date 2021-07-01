@@ -1,6 +1,7 @@
 let initialState = { 
     stylistId: 0, 
-    stylistData: {}}
+    stylistData: {},
+    isStylist: false}
 
 let stylistReducer = (state = initialState, action) => {
     switch(action.type) {
@@ -11,7 +12,11 @@ let stylistReducer = (state = initialState, action) => {
         case "stylistDataIn":
             return {
                 ...state, stylistData: action.payload
-                    } 
+                    }
+        case "isStylist":
+            return {
+                ...state, isStylist: action.payload
+            } 
         default:
             return state
     }

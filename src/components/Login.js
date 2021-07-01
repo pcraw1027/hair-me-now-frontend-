@@ -40,50 +40,17 @@ function Login() {
             dispatch({type: "loggedIn", payload: userInfo.user_id})
             
             console.log(userInfo)
-            console.log(userInfo.user_prices)
-            console.log(userInfo.user_appointments)
-            // console.log(userInfo.user_stylist)
-
-            if (userType === "stylist") {
-                dispatch({type: "stylistDataIn", payload: userInfo.user_stylist})
-
-
-                // Load stylist user prices
-                dispatch({type: "priceDataIn", payload: userInfo.user_prices})
-                
-                // Load stylist user appointments
-                // dispatch({type: "appointmentDataIn", payload: userInfo.user_appointments})
-
-                // Currently this data is not in the Login fetch 
-                // but is avalible in the Users fetch so we'll move it back
-                // to the StylistHome component.  So commented out
-                // dispatch({type: "stylistDataIn", payload: userInfo.stylist})
-
-                // Actually will make it a capture of the stylistId instead
-                dispatch({type: "stylist", payload: userInfo.user_stylist.id})
-
-                // fetch(`http://localhost:3000/stylists/${userInfo.user_stylist.id}`, {
-                // method: "GET",
-                // headers: {
-                //     Authorization: `Bearer ${localStorage.token}`
-                // }
-                // })
-                // .then(resp => resp.json())
-                // .then(stylists => {
-                //     console.log(stylists) 
-    
-                //     dispatch({type: "stylistDataIn", payload: stylists})
-
-                // })
-            } else {
-                console.log(userInfo)
-            }
-
+            
             dispatch({type: "userType", payload: userInfo.user_type})
 
             if (userType === "stylist") {
+                dispatch({type: "isStylist", payload: true})
+                dispatch({type: "stylist", payload: userInfo.user_stylist.id})
+                dispatch({type: "stylistDataIn", payload: userInfo.user_stylist})
                 history.push(`/stylisthome/${userInfo.user_id}`)
             } else {
+                dispatch({type: "customer", payload: userInfo.user_customer.id})
+                dispatch({type: "customerDataIn", payload: userInfo.user_customer})
                 history.push(`/customerhome/${userInfo.user_id}`)
             }
             

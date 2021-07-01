@@ -3,6 +3,7 @@ import AppointmentCalendar from "./AppointmentCalendar";
 import AppointmentRequests from "./AppointmentRequests";
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
+import { Card, CardGroup } from 'react-bootstrap';
 
 
 function StylistAppointmentManagement() {
@@ -125,12 +126,13 @@ function handleReject(rejectId) {
       console.log(confirmedAppointmentsArray)
 
       showRequestedAppointmentsArray = requestedAppointmentsArray.map(function(request) {
-          return <AppointmentRequests 
+        const startTime = request.time.split("Z")[0]  
+        return <AppointmentRequests 
             key={request.id}
             id={request.id}
             name={request.appointment_customer}
             date={request.date}
-            time={request.time}
+            time={startTime}
             style={request.appointment_style}
             image={request.price.image}
             onAccept={handleAccept}
@@ -158,9 +160,9 @@ function handleReject(rejectId) {
     
     return (
       <div>
-        <ul className="appointment-list">
-          {showRequestedAppointmentsArray}
-        </ul>
+        <CardGroup>
+            {showRequestedAppointmentsArray}
+        </CardGroup>
         {/* {showConfirmedAppointmentsArray} */}
         <AppointmentCalendar confirmedAppointmentsArray={confirmedAppointmentsArray}/>
       </div>

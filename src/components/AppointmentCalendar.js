@@ -6,6 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import React, { useState } from 'react'
 
+
 function AppointmentCalendar({confirmedAppointmentsArray}) {
     
     // const [value, onChange] = useState(new Date())
