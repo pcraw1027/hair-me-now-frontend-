@@ -13,8 +13,6 @@ function AppointmentRequests({id, name, date, time, style, onAccept, onReject, i
         onReject(request_id)
     }
 
-
-
     return (
         <div>
             <Card style={{width: '18rem' }}>
